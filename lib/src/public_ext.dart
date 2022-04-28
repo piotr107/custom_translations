@@ -143,4 +143,7 @@ extension BuildContextEasyLocalizationExtension on BuildContext {
 
   /// Reset locale to platform locale
   Future<void> resetLocale() => EasyLocalization.of(this)!.resetLocale();
+
+  /// Reload translations
+  Future<void> reloadTranslations() => EasyLocalization.of(this)!.reloadTranslations();
 }

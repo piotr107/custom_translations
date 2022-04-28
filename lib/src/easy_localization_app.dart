@@ -225,6 +225,9 @@ class _EasyLocalizationProvider extends InheritedWidget {
   /// Reset locale to platform locale
   Future<void> resetLocale() => _localeState.resetLocale();
 
+  /// Reload translations
+  Future<void> reloadTranslations() => delegate.reload(deviceLocale);
+
   @override
   bool updateShouldNotify(_EasyLocalizationProvider oldWidget) {
     return oldWidget.currentLocale != locale;
@@ -260,6 +263,14 @@ class _EasyLocalizationDelegate extends LocalizationsDelegate<Localization> {
         translations: localizationController!.translations,
         fallbackTranslations: localizationController!.fallbackTranslations);
     return Future.value(Localization.instance);
+  }
+
+  Future<void> reload(Locale value) async {
+    EasyLocalization.logger.debug('Reload Localization Delegate');
+    await localizationController!.loadTranslations();
+    Localization.load(value,
+        translations: localizationController!.translations,
+        fallbackTranslations: localizationController!.fallbackTranslations);
   }
 
   @override
