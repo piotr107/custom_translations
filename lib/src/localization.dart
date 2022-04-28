@@ -39,6 +39,17 @@ class Localization {
     return translations == null ? false : true;
   }
 
+  static bool reload(
+      Locale locale, {
+        Translations? translations,
+        Translations? fallbackTranslations,
+      }) {
+    _locale = locale;
+    _translations = translations;
+    _fallbackTranslations = fallbackTranslations;
+    return translations == null ? false : true;
+  }
+
   String tr(
     String key, {
     List<String>? args,

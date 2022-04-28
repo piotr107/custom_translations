@@ -268,7 +268,7 @@ class _EasyLocalizationDelegate extends LocalizationsDelegate<Localization> {
   Future<void> reload(Locale value) async {
     EasyLocalization.logger.debug('Reload Localization Delegate');
     await localizationController!.loadTranslations();
-    Localization.load(value,
+    Localization.reload(value,
         translations: localizationController!.translations,
         fallbackTranslations: localizationController!.fallbackTranslations);
   }
