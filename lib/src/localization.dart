@@ -8,7 +8,7 @@ import 'translations.dart';
 
 class Localization {
   Translations? translations, fallbackTranslations;
-  Locale locale;
+  late Locale locale;
 
   final RegExp _replaceArgRegex = RegExp(r'{}');
   final RegExp _linkKeyMatcher =
@@ -39,15 +39,13 @@ class Localization {
     return translations == null ? false : true;
   }
 
-  static bool reload(
-      Locale newLocale, {
+  static bool reload({
         Translations? newTranslations,
         Translations? newFallbackTranslations,
       }) {
-    locale = newLocale;
-    translations = newTranslations;
-    fallbackTranslations = newFallbackTranslations;
-    return translations == null ? false : true;
+    instance.translations = newTranslations;
+    instance.fallbackTranslations = newFallbackTranslations;
+    return newTranslations == null ? false : true;
   }
 
   String tr(
@@ -179,7 +177,7 @@ class Localization {
   }
 
   String _resolve(String key, {bool logging = true}) {
-    var resource = translations?.get(key);
+    var resource = instance.translations?.get(key);
     if (resource == null) {
       if (logging) {
         EasyLocalization.logger.warning('Localization key [$key] not found');
