@@ -7,8 +7,8 @@ import 'plural_rules.dart';
 import 'translations.dart';
 
 class Localization {
-  Translations? _translations, _fallbackTranslations;
-  late Locale _locale;
+  Translations? translations, fallbackTranslations;
+  Locale locale;
 
   final RegExp _replaceArgRegex = RegExp(r'{}');
   final RegExp _linkKeyMatcher =
@@ -33,20 +33,20 @@ class Localization {
     Translations? translations,
     Translations? fallbackTranslations,
   }) {
-    instance._locale = locale;
-    instance._translations = translations;
-    instance._fallbackTranslations = fallbackTranslations;
+    instance.locale = locale;
+    instance.translations = translations;
+    instance.fallbackTranslations = fallbackTranslations;
     return translations == null ? false : true;
   }
 
   static bool reload(
-      Locale locale, {
-        Translations? translations,
-        Translations? fallbackTranslations,
+      Locale newLocale, {
+        Translations? newTranslations,
+        Translations? newFallbackTranslations,
       }) {
-    _locale = locale;
-    _translations = translations;
-    _fallbackTranslations = fallbackTranslations;
+    locale = newLocale;
+    translations = newTranslations;
+    fallbackTranslations = newFallbackTranslations;
     return translations == null ? false : true;
   }
 
@@ -128,7 +128,7 @@ class Localization {
       {List<String>? args, NumberFormat? format}) {
     late var pluralCase;
     late var res;
-    var pluralRule = _pluralRule(_locale.languageCode, value);
+    var pluralRule = _pluralRule(locale.languageCode, value);
     switch (value) {
       case 0:
         pluralCase = PluralCase.ZERO;
@@ -179,15 +179,15 @@ class Localization {
   }
 
   String _resolve(String key, {bool logging = true}) {
-    var resource = _translations?.get(key);
+    var resource = translations?.get(key);
     if (resource == null) {
       if (logging) {
         EasyLocalization.logger.warning('Localization key [$key] not found');
       }
-      if (_fallbackTranslations == null) {
+      if (fallbackTranslations == null) {
         return key;
       } else {
-        resource = _fallbackTranslations?.get(key);
+        resource = fallbackTranslations?.get(key);
         if (resource == null) {
           if (logging) {
             EasyLocalization.logger

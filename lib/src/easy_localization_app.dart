@@ -269,8 +269,8 @@ class _EasyLocalizationDelegate extends LocalizationsDelegate<Localization> {
     EasyLocalization.logger.debug('Reload Localization Delegate');
     await localizationController!.loadTranslations();
     Localization.reload(value,
-        translations: localizationController!.translations,
-        fallbackTranslations: localizationController!.fallbackTranslations);
+        newTranslations: localizationController!.translations,
+        newFallbackTranslations: localizationController!.fallbackTranslations);
   }
 
   @override
